@@ -1,0 +1,26 @@
+
+version: '3'
+
+services:
+  db:
+    build: ./docker/db
+    image: move-db
+    container_name: movedb
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpasswd
+      MYSQL_DATABASE: move
+      MYSQL_HOST: localhost
+      MYSQL_USER: move
+      MYSQL_PASSWORD: movepasswd
+    ports:
+      - "3306:3306"
+  web:
+    build: .
+    image : move-web
+    container_name: moveweb
+    depends_on:
+      - db
+    volumes:
+      - .:/var/www/html/
+    ports:
+      - "5633:80"
